@@ -1,20 +1,20 @@
-# 1. A Brief Oveview of a RESTful API
-## 1.1.  Creating the first project
-- Create BookStore Folder and a BookStore solution in it.
-- Create BookStore/BookStoreApi Folder and BookStoreApi "webapi" (NET6.0) project and add it to the solution.
-- Delete example model and controller.
-- Add a Book model under Models (create) folder.
-- Add a BooksController (Empty WebApi Controller) under Controllers folder.
-### 1.1.1. Adding In-Memory Mock Data
-- Add a Data folder
-- Add a static ApplicationContext class into Data folder
-- Add Crud methods to controller.
-- **For Patch verb,** JsonPatchDocument will be used,
-	- for this, these two packages must be installed:
+# 1. RESTful API'sine Kısa Bir Bakış
+## 1.1. İlk projeyi oluşturma
+- BookStore Klasörü ve içinde bir BookStore çözümü oluşturun.
+- BookStore/BookStoreApi Klasörü ve BookStoreApi "webapi" (NET6.0) projesini oluşturup çözüme ekleyin.
+- Örnek modeli ve denetleyiciyi silin.
+- Modeller (oluştur) klasörü altına bir Kitap modeli ekleyin.
+- Denetleyiciler klasörü altına bir BooksController (Boş WebApi Denetleyicisi) ekleyin.
+### 1.1.1. Bellek İçi Sahte Veri Ekleme
+- Bir Veri klasörü ekleyin
+- Veri klasörüne statik bir ApplicationContext sınıfı ekleyin
+- Denetleyiciye Crud yöntemlerini ekleyin.
+- **Patch fiili için** JsonPatchDocument kullanılacaktır,
+- bunun için şu iki paketin kurulu olması gerekir:
 		- Microsoft.AspNetCore.Mvc.NewtonsoftJson (6.0.10)
 		- Microsoft.AspNetCore.JsonPatch (6.0.10
-	- after installing packages, NewtonsoftJson must be added to the services in the Program.cs:
-		change this line,
+- Paketler kurulduktan sonra Program.cs içerisindeki servislere NewtonsoftJson eklenmelidir:
+bu satırı değiştir
 		```C#
 		builder.Services.AddControllers();
 		```
@@ -23,7 +23,7 @@
 		builder.Services.AddControllers()
 			.AddNewtonsoftJson();
 		```
-	- How to send a PATCH request? Below is the body templete, notice that it is a list:
+- PATCH isteği nasıl gönderilir? Aşağıda vücut tapınağı bulunmaktadır, bunun bir liste olduğuna dikkat edin:
 	```Json
 		[
 		  {
@@ -60,36 +60,33 @@
 		  }
 		]
 	```
-# 2. Using Postman
-- Create workspace under Workspaces tab.
-	- Define a Name and description
-	- Select personal
-- Under the workspace select collections, then click on "+" button to create a collection. Name it to "Books"
-- In the collection click on New Request, and create a new request for each of the operation in the controller with related http request verb. Don't forget to save each request.
-## 2.1. Global and Collection variables
-- We can use variables in order not to repeat urls.
-- Select https://localhost:PORT in any request url field. Click on set as variable, define a name (baseUrl) and select global. This part of the url in the field will change to: {{baseUrl}}, change all of the other requests to this. (eg: {{baseUrl}}/api/books/2)
-- Collection variables can be defined likewise, collection variables are valid only under the collection that is defined for.
-- Variables can be used in the bodies of the requests too.
-## 2.2. Tests using postman
-- Test functionality of postman can be used for requests,
-	- Under the Tests tab of a selected request, test functions like below can be described:
+# 2. Postacıyı Kullanmak
+- Çalışma Alanları sekmesi altında çalışma alanı oluşturun.
+- Bir Ad ve açıklama tanımlayın
+- Kişisel seç
+- Çalışma alanı altında koleksiyonları seçin ve ardından bir koleksiyon oluşturmak için "+" düğmesine tıklayın. Bunu "Kitaplar" olarak adlandırın
+- Koleksiyonda Yeni İstek'e tıklayın ve denetleyicideki her işlem için ilgili http istek fiiliyle yeni bir istek oluşturun. Her isteği kaydetmeyi unutmayın.
+## 2.1. Global ve Koleksiyon değişkenleri
+- URL'lerin tekrarlanmaması için değişkenler kullanabiliriz.
+- Herhangi bir istek URL'si alanında https://localhost:PORT'u seçin. Değişken olarak ayarla'ya tıklayın, bir ad tanımlayın (baseUrl) ve global'i seçin. Alandaki URL'nin bu kısmı şu şekilde değişecek: {{baseUrl}}, diğer tüm istekleri bununla değiştirin. (örneğin: {{baseUrl}}/api/books/2)
+- Koleksiyon değişkenleri aynı şekilde tanımlanabilir, koleksiyon değişkenleri yalnızca tanımlandığı koleksiyon altında geçerlidir.
+- Değişkenler isteklerin gövdelerinde de kullanılabilir.
+## 2.2. Postacıyı kullanarak testler
+- Postacının test işlevi istekler için kullanılabilir,
+- Seçilen bir isteğin Testler sekmesi altında aşağıdaki gibi test fonksiyonları açıklanabilir:
 	```js
 	pm.test("Status code 200", function(){
     	pm.response.to.have.status(200)
     })
 	```
-## 2.3. Random Functions
-- Mock data may be produced using postman and selected requests can be sent multiple times using iterations.
-	- To send a request 100 times, 
-	- Click on ... of the collection name or right click on the collection name (Books),
-	- Select run collection
-	- Select Requests to repeat.
-	- Enter number of iterations,
-	- Optionally enter delay value between each request.
-	- Run.
+## 2.3. Rastgele Fonksiyonlar
+- Postacı kullanılarak sahte veriler üretilebilir ve seçilen istekler yinelemeler kullanılarak birden çok kez gönderilebilir.
+- 100 defa istek göndermek,
+- Koleksiyon adının ... seçeneğine tıklayın veya koleksiyon adına (Kitaplar) sağ tıklayın,
+- Çalıştırma koleksiyonunu seçin
+- Tekrarlanacak İstekler'i seçin.
 
-- An example request body for creating mock data using post:
+-Gönderiyi kullanarak sahte veriler oluşturmaya yönelik örnek bir istek gövdesi:
 	```Json
 	{
 	  "id": {{$randomInt}},
@@ -98,100 +95,100 @@
 	}
 	```
 	
-# 3. A New Api project and EntityFramework Core
-- Add a new ASP.NET Core Web API project using VS or terminal. Specifications:
-	- NET6.0
-	- No Authentication
-	- Configure for Https
-	- Use Controllers
-	- Enable OpenAPI support
-- Delete WeatherForecast model and controller.
-- In the Solution Explorer, set this project as start up project.
+# 3. Yeni Bir API Projesi ve EntityFramework Çekirdeği
+- VS veya terminali kullanarak yeni bir ASP.NET Core Web API projesi ekleyin. Özellikler:
+-NET6.0
+- Kimlik doğrulama yok
+- Https için yapılandırın
+- Denetleyicileri Kullan
+- OpenAPI desteğini etkinleştirin
+- WeatherForecast modelini ve denetleyiciyi silin.
+- Solution Explorer'da bu projeyi başlangıç ​​projesi olarak ayarlayın.
 
-## 3.1. EntitiyFramework Core
-- Add package Microsoft.EntityFrameworkCore, either use nuget package manager or use Package Manager Console (as follows):
+## 3.1. Varlık Çerçevesi Çekirdeği
+- Microsoft.EntityFrameworkCore paketini ekleyin, nuget paket yöneticisini veya Paket Yönetici Konsolunu kullanın (aşağıdaki gibi):
+''''
+Kurulum Paketi Microsoft.EntityFrameworkCore -Sürüm 6.0.10 -ProjectName WebApi
+''''
+- appsettings.json dosyasına "ConnectionStrings" ekleyin.
+- Microsoft.EntityFrameworkCore.SqlServer paketini projeye nuget veya PMC ile ekleyin:
+''''
+Kurulum Paketi Microsoft.EntityFrameworkCore.SqlServer -Sürüm 6.0.10 -ProjectName WebApi
 ```
-	Install-Package Microsoft.EntityFrameworkCore -Version 6.0.10 -ProjectName WebApi
-```
-- Add "ConnectionStrings" to appsettings.json file.
-- Add Microsoft.EntityFrameworkCore.SqlServer package to the project by nuget or PMC:
-```
-	Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.10 -ProjectName WebApi
-```
-## 3.2. Create Migations
-- Add Microsoft.EntityFrameworkCore.Tools Package to manage migrations. This package is needed for command sets related to migrations and db operations. In the PMC:
-```
-	Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.10 -ProjectName WebApi
-```
-- Another package needed for code-first approach is the design package, This package is needed for the app. In the PMC: 
-```
-	Install-Package Microsoft.EntityFrameworkCore.Design -Version 6.0.10 -ProjectName WebApi
-```
-- Create migration and database in the PMC (WebApi must be selected as default project):
+## 3.2. Taşıma Oluştur
+- Geçişleri yönetmek için Microsoft.EntityFrameworkCore.Tools Paketini ekleyin. Bu paket, geçişler ve veritabanı işlemleriyle ilgili komut setleri için gereklidir. PMC'de:
+''''
+Kurulum Paketi Microsoft.EntityFrameworkCore.Tools -Sürüm 6.0.10 -ProjectName WebApi
+''''
+- Kod öncelikli yaklaşım için ihtiyaç duyulan diğer bir paket ise tasarım paketidir. Bu paket uygulama için gereklidir. PMC'de:
+''''
+Kurulum Paketi Microsoft.EntityFrameworkCore.Design -Sürüm 6.0.10 -ProjectName WebApi
+''''
+- PMC'de geçiş ve veritabanı oluşturun (Varsayılan proje olarak WebApi seçilmelidir):
 ```
 	Add-Migration Init
 	Update-Database
 ```
-- At this point there was a punctuation error in the connection string in the appsettings.json file. It has to corrected in order to Update Database succeeds.
+- Bu noktada appsettings.json dosyasındaki bağlantı dizesinde bir noktalama işareti hatası oluştu. Veritabanı Güncellemenin başarılı olması için düzeltilmesi gerekir.
 
-- Add "SeedData" migration and update db after creating BookConfig and overriding the OnModelCreating methot.
+- BookConfig'i oluşturduktan ve OnModelCreating yöntemini geçersiz kıldıktan sonra "SeedData" geçişini ekleyin ve veritabanını güncelleyin.
 
-## 3.3. Data manipulation
-- Create Controller Methods.
-- To Use postman for testing, the request collection of the workspace that we created can be used by changing the port number of the beseUrl variable.
-- For PATCH verb and its method, install NewtonsoftJson and JsonPatch packages and add services record in the Program.cs
-# 4. Layered Architecture
-## 4.1. Entities Layer
-- Add a Class Library project named Entitites
-- Move Book class under the WebApi/Models folder to Entities/Models And Delete the WebApi/Models folder.
-- Add reference to Entities into WebApi project and don't forget to edit namespaces while moving Book.class and resolvings.
-## 4.2. Repositories Layer
-- Add a Class Library project named Repositories
-- Add a Contracts folder under this project and add a generic interface named IRepositoryBase in it.
-- Add CRUD method signatures.
-- Add EfCore folder and move RepositoryContext from WebApi into it. 
-- Remove EntitiyFrameworkCore package from WebApi and add the package to Repositories project to resolve usings.
-- Add reference to Entities from this project.
-- Add reference to this project from WebApi project.
-- Move Config folder and the BookConfig class to Repositories/EfCore Project.
-- Delete Migrations folder in the WebApi project.
-- Resolve all usings.
-- Create an abstract RespositoryBase generic class that implements IRepositoryBase under EfCore folder.
-- Inject (protected) RepositoryContext into it to implement methods.
-- Create IBookRepository extends IRepositoryBase under Contracts.
-- Create BookRepository implements IBookRepository and extends BookRepositoryBase
-- Create IRepositoryManager under Contracts
-- Create RepositoryManager implements IRepositoryManager under EfCore
-### 4.2.1. Lazy Loading
-- Refactor RepositoryManager
-### 4.2.2. Service Extensions
-- Create Extensions folder under WebApi project.
-- Create ServicesExtensions under Extensions folder.
-### 4.2.3. Integration of Repository Managers to Controller
-- Inject and edit BookController to use RepositoryManager instead of Context.
-- Add a method to ServicesExtension class for IoC
-## 4.3. Services Layer
-- Add a class library named Services
-- Add a folder named Contracts
-- Add an interface named IBookService
-- Add a class named BookService implements IBookService
-- Add an interface IServiceManager
-- Add a class ServiceManager implements IServiceManager
-- Add reference to Entities project
-- Add a ConfigureServiceManger method to ServicesExtensions
-- Add this to Program.cs
-- Inject ServiceManager to BooksController
-- Edit BooksController Methods accordingly
-## 4.4. Presentation Layer
-- Add a class library project named Presentation under solution
-- Rename the existing Class1 class to AssemblyReference
-- Add Controllers folder
-- Move BooksController in the WebApi project into this folder and delete them from WebApi
-- Add package Microsoft.AspNetCore.Mvc.Core 2.2.5 to this project
-- Add previously installed jsonPatch package to this project, remove from WebApi
-- Add reference to Entities and Services projects
-- Add this project to WebApis references
-- In the Program.cs change this line:
+## 3.3. Veri manipülasyonu
+- Denetleyici Yöntemleri oluşturun.
+- Postacıyı test amacıyla kullanmak için, oluşturduğumuz çalışma alanının istek koleksiyonu beseUrl değişkeninin port numarası değiştirilerek kullanılabilir.
+- PATCH fiili ve yöntemi için NewtonsoftJson ve JsonPatch paketlerini kurun ve Program.cs'ye hizmet kaydını ekleyin.
+# 4. Katmanlı Mimari
+## 4.1. Varlıklar Katmanı
+- Varlıklar adlı bir Sınıf Kitaplığı projesi ekleyin
+- WebApi/Models klasörü altındaki Book sınıfını Entities/Models'a taşıyın ve WebApi/Models klasörünü silin.
+- WebApi projesine Varlıklara referans ekleyin ve Book.class'ı ve çözümlemeleri taşırken ad alanlarını düzenlemeyi unutmayın.
+## 4.2. Depo Katmanı
+- Depolar adlı bir Sınıf Kitaplığı projesi ekleyin
+- Bu projenin altına bir Sözleşmeler klasörü ekleyin ve içine IRepositoryBase adında genel bir arayüz ekleyin.
+- CRUD yöntemi imzalarını ekleyin.
+- EfCore klasörünü ekleyin ve RepositoryContext'i WebApi'den bu klasöre taşıyın.
+- Kullanımları çözmek için EntitiyFrameworkCore paketini WebApi'den kaldırın ve paketi Repositories projesine ekleyin.
+- Bu projedeki Varlıklara referans ekleyin.
+- WebApi projesinden bu projeye referans ekleyin.
+- Config klasörünü ve BookConfig sınıfını Repositories/EfCore Project'e taşıyın.
+- WebApi projesindeki Geçişler klasörünü silin.
+- Tüm kullanımları çözün.
+- EfCore klasörü altında IRepositoryBase'i uygulayan soyut bir RespositoryBase genel sınıfı oluşturun.
+- Yöntemleri uygulamak için içine (korumalı) RepositoryContext enjekte edin.
+- Create IBookRepository, Sözleşmeler kapsamında IRepositoryBase'i genişletir.
+- Create BookRepository, IBookRepository'yi uygular ve BookRepositoryBase'i genişletir
+- Sözleşmeler altında IRepositoryManager oluşturun
+- Create RepositoryManager, EfCore altında IRepositoryManager'ı uygular
+### 4.2.1. Yavaş yüklenme
+- Refactor RepositoryManager'ı
+### 4.2.2. Hizmet Uzantıları
+- WebApi projesi altında Uzantılar klasörü oluşturun.
+- Uzantılar klasörü altında ServicesExtensions oluşturun.
+### 4.2.3. Depo Yöneticilerinin Denetleyiciye Entegrasyonu
+- Context yerine RepositoryManager'ı kullanmak için BookController'ı enjekte edin ve düzenleyin.
+- IoC için ServicesExtension sınıfına bir yöntem ekleyin
+## 4.3. Hizmetler Katmanı
+- Hizmetler adlı bir sınıf kitaplığı ekleyin
+- Sözleşmeler adlı bir klasör ekleyin
+- IBookService adlı bir arayüz ekleyin
+- BookService adlı bir sınıf ekleyin, IBookService'i uygular
+- Bir IServiceManager arayüzü ekleyin
+- ServiceManager'ın IServiceManager'ı uyguladığı bir sınıf ekleyin
+- Varlıklar projesine referans ekleyin
+- ServicesExtensions'a bir ConfigurationServiceManger yöntemi ekleyin
+- Bunu Program.cs'ye ekleyin
+- ServiceManager'ı BooksController'a enjekte edin
+- BooksController Yöntemlerini buna göre düzenleyin
+## 4.4. Sunum Katmanı
+- Çözümün altına Sunum adlı bir sınıf kütüphanesi projesi ekleyin
+- Mevcut Class1 sınıfını AssemblyReference olarak yeniden adlandırın
+- Denetleyiciler klasörünü ekle
+- WebApi projesindeki BooksController'ı bu klasöre taşıyın ve WebApi'den silin
+- Bu projeye Microsoft.AspNetCore.Mvc.Core 2.2.5 paketini ekleyin
+- Daha önce kurulmuş olan jsonPatch paketini bu projeye ekleyin, WebApi'den kaldırın
+- Varlıklar ve Hizmetler projelerine referans ekleyin
+- Bu projeyi WebApis referanslarına ekleyin
+- Program.cs'de şu satırı değiştirin:
 	```C#
 	builder.Services.AddControllers()
     .AddNewtonsoftJson();
@@ -202,366 +199,368 @@
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 	```
-## 4.5. Repository Context Factory
-- Drop database
-- Since we removed Ef from WebApi to a separate project, we can not create a migration in WebApi (although we can create in the Repositories, which we don't want to.)
-- Create a ContextFactory folder under WebApi
-- Create a RepositoryContextFactory class in it.
-- Make ConfigurationBuilder in this factory
-- Make DbContextOptionsBuilder in this factory
-- Create Init migration and update database
+## 4.5. Depo Bağlamı Fabrikası
+- Veritabanını bırak
+- Ef'i WebApi'den ayrı bir projeye kaldırdığımız için WebApi'de geçiş oluşturamıyoruz (her ne kadar istemediğimiz Depolarda oluşturabilsek de).
+- WebApi altında bir ContextFactory klasörü oluşturun
+- İçinde bir RepositoryContextFactory sınıfı oluşturun.
+- Bu fabrikada ConfigurationBuilder'ı yapın
+- Bu fabrikada DbContextOptionsBuilder'ı yapın
+- Init geçişini oluşturun ve veritabanını güncelleyin
 
-# 5 Logging with NLog
-- Add ILoggerService interface into Services/Contracts
-- Install NLog.Extensions.Logging package to Service project 
-- Add LoggerManager class implements ILoggerService
-- Add nlog.config xml file to the project
+# 5 NLog ile Günlük Kaydı
+- ILoggerService arayüzünü Hizmetlere/Sözleşmelere ekleyin
+- NLog.Extensions.Logging paketini Hizmet projesine yükleyin
+- ILoggerService'i uygulayan LoggerManager sınıfı ekleyin
+- Nlog.config xml dosyasını projeye ekleyin
 - Add record to Program.cs
 	```C#
 	LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
 	```
-- Add an Extension Method to ServicesExtensions for IoC
-- Add Configuration for IoC to Program.cs
-## 5.1. Using Logger in the project
-- Add logging lines wherever needed.
+- IoC için ServicesExtensions'a bir Uzantı Yöntemi ekleyin
+- IoC Yapılandırmasını Program.cs'ye ekleyin
+## 5.1. Logger'ı projede kullanma
+- Gereken yerlere kayıt satırları ekleyin.
 
-# 6. Global Exception Handling
-## 6.1. Modeling Errors and Error Details
-- Add an ErrorModel folder to Entities project
-- Add a class ErrorDetails in this folder
-## 6.2. Using Exception Handler
-- Add an ExceptionMiddlewareExtensions class into Extensions folder in the WebApi project
-- Set all Exception Status codes to 500 for now.
-- Configure Program.cs for the ConfigureExceptionHandler
-- After these steps, the app may be tested. The Exceptions thrown in te app will be serialized as ErrorDetails and the StatusCode will be set to 500: Internal Server Error
-- Remove try-catch blocks
-## 6.3. Custom Exceptions
-- Add Exceptions folder under Entities
-- Add a NotFound abstract class extends Exception into it.
-- Add a BookNotFound sealed class extends NotFound
-- Return to ExceptionMiddlewareExtensions class in the Extensions folder of the main project and edit it according to Exception type.
-- Refactor Related methods that throw errors or return not found responses to throw BookNotFoundException.
-- Optional: Add a new custom Exception; BadRequestException
-# 7. AutoMapper Implementation
-- Install automapper.Extensions.Microsoft.DependencyInjection versin 12.0.0 to services project.
-- In the Program.cs add record to services
-- Add DataTransferObjects folder to Entities project
-- Add BookUpdateDto "record" into this folder. Dtos are not intended for manipulation hence, they are defined as records. Records are much like classes, they are also reference types. We don't define set blocks for properties in the record, instead we define init blocks. So record types become immutable types.
-- Add Utilities/AutoMapper folders under WebApi project.
-- Add MappingProfile extends Profile class into AutoMapper folder.
-- Add mappings into constructor using CreateMap method.
-- Refactor BooksController and Service layer to use BookUpdateDto
-# 8. Content Negotiation
-- Support or don't support various formats for Requests from Clients
-- Consider formats like Json, Xml and accept or don't accept, and response accordingly.
-- Configure Accept header
-- Currently the application is closed to content negotiation, meaning that, no matter what format the client requests (application/json, text/csv, text/xml, application/xml etc.), the app returns application/json format.
-- In the Program.cs Configure controllers,
-	- add RespectBrowserAcceptHeader = true to enable content negotation.
-	- add ReturnHttpNotAcceptable = true to send feedback that the format is not accepted with response 406 code.
-	- To send responses in xml format, add AddXmlDataContractSerializerFormatters
-	- Now the Api is able to respond either in Json or xml formats.
-## 8.1. Serializability
-- For now, the Api cannot return list of record objects which are defined by contstructor (no props defined explicitly), in xml format, because of not being able to serialize.
-- To solve this add Serializable attribute. Bu this time, the result in xml requests will be quiet messy.
-- The absolute solution is define the classess or records with default constructors and with properties.
-## 8.2. Custom Formatter
-- Add Formatters folder under Utilities folder of WebApi
-- Add CsvOutputFormatter : TextOutputFormatter class in it to support csv response formats
-- Resolve MediaTypeHeaderValue using Microsoft (not System)
-- We can support only List or individual contents.
-- We can select which properties to add to response.
-- Add IMvcBuilderExtensions to Extensions folder.
-- Configure Program.cs
-- Notice that this will only work for BookDto type, so for GetOneBook request to work, we need to refactor that controller method to return BookDto.
 
-# 9. Validation with Annotation
-- Add a new abstract record model, BookManipulationDto, into DataTransferObjects folder in Entities.
-- Add validation annotations to its properties.
-- Extend BookUpdateDto to BookManipulationDto
-- Add BookCreateDto:BookManipulationDto
-- Edit Service Layer,
-	- Edit IBookService
-	- Edit BookManager
-- Edit BooksController in Presentation Layer
-- To Suppress default 404 Response status code for failed validations (ModelState.Invalid condition) Configure the Program.cs
-- To return UnprocessableEntity response (Coce 422), refactor the BooksController
-- The PatchOneBook method needs extra steps.
-	- Remove NewtonsoftJson package from WebApi and install it to Presentation project.
-	- Add ModelState arg to ApplyTo method in the PatchOneBook method body.
-	- Add a method signature to IBookService and implement it in the BookManager
-	- Refactor PatchOneBook method in the controller.
-# 10. Async Programming
-- APM: Asyncronous Programming Model
-- EAP: Event-based Asyncronous Programming
-- TAP: Task-based Asyncronous Programming
-## 10.1. Task-based Asyncronous Programming (TAP)
-Syncroned tasks procssed in the pipeline in the same Thread. Each Sync request is assigned to a Thread in the Thread pool. If there is no available Thread in the pool, then the sync request has to wait for a previous request to complete, and the assigned thread to return to the pool.  
-The difference of the async request is, async request doesn't has to wait for the previous process to complete. Every step in the pipeline is processed by a thread.
-- In he Repositories layer, refactor IBookRepository and BookRepository, refactor Get methods, wrap the retuned types into Task
-- In the IRepositoryManager and RepositoryManager, refactor Save method.
-- Rafactor the Methods the same way in the Services layer.
-- Refactor the Methods in the Presentation layer.
-# 11. Action Filters
-## 11.1. ActionFilter
-- Add ActionFilters folder into Presentation layer
-- Create a class ValidationFilterAttribute : ActionFilterAttribute
-- override needed Methods of the base class
-- Add ValidationFilter attribute on Create and Update methods of the controller
-- Remove BadRequest and UnprocessibleEntity blocks.
-- Add IoC record to Program.cs
-## 11.2. LogFilter
-- Add LogDetails model into Entities/LogModel folder.
-- Add LogFilterAttribute extends ActionFilterAttribute into Presentation/ActionFilters
-- Add a method for Filter Attributes into ServicesExtensions in te main project.
-- Call this method from Program.cs to add them to the services.
-- Add attribute to BooksController to log all of the actions.
-# 12. Pagination and Cors
-## 12.1. Basic Pagination
-- Add RequestFeatures folder into Entities project,
-- Add RequestParameters abstract class in this folder
-- Add BookParameters extends RequestParameters
-- In the IBooksRepository refactor GetAll method signatures to  use BookParameters
-- Refactor the implementation of IBookRepository
-- Refactor the methods all the way up to Presentation layer.
-## 12.2. Meta data & paged list
-- Add MetaData and PagedList classes into RequestFeatures in the Entities project
-- Refactor all layers' GetAll methods.
-## 12.3. Cors (Cross Origin resource sharing) Configuration
-- Add ConfigureCors method into ServicesExtensions
-- Add ConfigureCors call to Program.cs
-# 14. Filtering
-- In the Entities project add properties to BookParameters class
-- In the Exceptions folder, make BadRequestException abstract and create two sub-classes of this class. Refactor the ExceptionMiddlewareExtensions class in the WebApi/Extensions folder accordingly.
-- In the Repositories project add BookRepositoriesExtensions class
-- In the BookRepository refactor the method using the Extension method.
+# 6. Küresel İstisna İşleme
+## 6.1. Modelleme Hataları ve Hata Ayrıntıları
+- Varlıklar projesine bir ErrorModel klasörü ekleyin
+- Bu klasöre bir ErrorDetails sınıfı ekleyin
+## 6.2. İstisna İşleyicisini Kullanma
+- WebApi projesindeki Extensions klasörüne bir ExceptionMiddlewareExtensions sınıfı ekleyin
+- Şimdilik tüm İstisna Durum kodlarını 500'e ayarlayın.
+- ConfigurationExceptionHandler için Program.cs'yi yapılandırın
+- Bu adımlardan sonra uygulama test edilebilir. Uygulamada atılan İstisnalar ErrorDetails olarak serileştirilecek ve StatusCode 500 olarak ayarlanacak: Dahili Sunucu Hatası
+- Try-catch bloklarını kaldırın
+## 6.3. Özel İstisnalar
+- Varlıklar altına İstisnalar klasörü ekleyin
+- Bir NotFound soyut sınıfı eklemek, İstisna'yı buna genişletir.
+- BookNotFound mühürlü sınıfının eklenmesi NotFound'u genişletir
+- Ana projenin Extensions klasöründe ExceptionMiddlewareExtensions sınıfına dönün ve Exception tipine göre düzenleyin.
+- BookNotFoundException'ı oluşturmak için hata atan veya bulunamadı yanıtları döndüren Refactor İlgili yöntemler.
+- İsteğe bağlı: Yeni bir özel İstisna ekleyin; BadRequestException
+# 7. AutoMapper Uygulaması
+- Hizmetler projesine automapper.Extensions.Microsoft.DependencyInjection ver 12.0.0 sürümünü yükleyin.
+- Program.cs'de hizmetlere kayıt ekleyin
+- Entities projesine DataTransferObjects klasörünü ekleyin
+- Bu klasöre "kaydet" yapmak için BookUpdateD'yi ekleyin. Dto'lar manipülasyon amaçlı değildir, dolayısıyla kayıt olarak tanımlanırlar. Kayıtlar sınıflara çok benzer, aynı zamanda referans türleridir. Kayıttaki özellikler için set blokları tanımlamıyoruz, bunun yerine init blokları tanımlıyoruz. Böylece kayıt türleri değişmez türler haline gelir.
+- WebApi projesi altına Utilities/AutoMapper klasörlerini ekleyin.
+- MappingProfile ekle, Profil sınıfını AutoMapper klasörüne genişletir.
+- CreateMap yöntemini kullanarak yapıcıya eşlemeler ekleyin.
+- BookUpdateDto'yu kullanmak için BooksController ve Service katmanını yeniden düzenleyin
+# 8. İçerik Müzakereleri
+- Müşterilerden Gelen İstekler için çeşitli formatları destekleyin veya desteklemeyin
+- Json, Xml gibi formatları göz önünde bulundurun ve kabul edin veya kabul etmeyin ve buna göre yanıt verin.
+- Kabul başlığını yapılandır
+- Şu anda uygulama içerik anlaşmasına kapalıdır; bu, istemcinin istediği format ne olursa olsun (application/json, text/csv, text/xml, application/xml vb.), uygulamanın application/json formatını döndürdüğü anlamına gelir.
+- Program.cs Yapılandırma denetleyicilerinde,
+- içerik anlaşmasını etkinleştirmek için RespectBrowserAcceptHeader = true ekleyin.
+- biçimin yanıt 406 koduyla kabul edilmediğine ilişkin geri bildirim göndermek için ReturnHttpNotAcceptable = true ekleyin.
+- Yanıtları xml formatında göndermek için AddXmlDataContractSerializerFormatters'ı ekleyin
+- Artık Api Json veya xml formatlarında yanıt verebilmektedir.
+## 8.1. Serileştirilebilirlik
+- Şimdilik Api, serileştirilemediği için yapıcı tarafından tanımlanan kayıt nesnelerinin listesini (açıkça tanımlanmış hiçbir destek yok) xml formatında döndüremiyor.
+- Bu sorunu çözmek için Serileştirilebilir özellik ekleyin. Ancak bu sefer xml isteklerinin sonucu oldukça karmaşık olacak.
+- Mutlak çözüm, sınıfları veya kayıtları varsayılan kurucular ve özelliklerle tanımlamaktır.
+## 8.2. Özel Formatlayıcı
+- WebApi'nin Utilities klasörü altına Formatters klasörünü ekleyin
+- Csv yanıt formatlarını desteklemek için CsvOutputFormatter : TextOutputFormatter sınıfını ekleyin
+- MediaTypeHeaderValue sorununu Microsoft (Sistem değil) kullanarak çözümleyin
+- Yalnızca Liste veya bireysel içerikleri destekleyebiliriz.
+- Yanıta hangi özelliklerin ekleneceğini seçebiliriz.
+- IMvcBuilderExtensions'ı Uzantılar klasörüne ekleyin.
+- Program.cs'yi yapılandırın
+- Bunun yalnızca BookDto türü için çalışacağına dikkat edin, dolayısıyla GetOneBook isteğinin çalışması için BookDto'yu döndürecek denetleyici yöntemini yeniden düzenlememiz gerekir.
 
-# 15. Searching
-- Add a SearchTerm property into BookParameters.
-- Refactor BookRepository to add "Search" method in the GetAll method.
-- Create a folder named Extensions in the Repositories project
-- Move BookRepositoryExtensions class into the folder
-- Add a "Search" method to the BookRepositoryExtensions class.
+# 9. Açıklamalarla Doğrulama
+- Entities'deki DataTransferObjects klasörüne yeni bir soyut kayıt modeli olan BookManipulationDto'yu ekleyin.
+- Özelliklerine doğrulama ek açıklamaları ekleyin.
+- BookUpdateDto'yu BookManipulationDto'ya genişletin
+- BookCreateDto:BookManipulationDto'yu ekleyin
+- Hizmet Katmanını Düzenle,
+- IBookService'i düzenleyin
+- BookManager'ı düzenleyin
+- Sunum Katmanında BooksController'ı düzenleyin
+- Başarısız doğrulamalar için varsayılan 404 Yanıt durum kodunu Bastırmak için (ModelState.Invalid koşulu) Program.cs'yi yapılandırın
+- UnprocessableEntity yanıtını (Coce 422) döndürmek için BooksController'ı yeniden düzenleyin
+- PatchOneBook yönteminin ekstra adımlara ihtiyacı vardır.
+- NewtonsoftJson paketini WebApi'den kaldırın ve Sunum projesine yükleyin.
+- PatchOneBook yönteminin gövdesindeki ApplyTo yöntemine ModelState argümanını ekleyin.
+- IBookService'e bir yöntem imzası ekleyin ve bunu BookManager'da uygulayın
+- Denetleyicideki PatchOneBook yöntemini yeniden düzenleyin.
+# 10. Eşzamansız Programlama
+- APM: Asenkron Programlama Modeli
+- EAP: Olay Tabanlı Asenkron Programlama
+- TAP: Görev Tabanlı Eşzamansız Programlama
+## 10.1. Görev Tabanlı Eşzamansız Programlama (TAP)
+Aynı İş Parçacığında ardışık düzende işlenen senkronize görevler. Her Senkronizasyon isteği, İş Parçacığı havuzundaki bir İş Parçacığına atanır. Havuzda kullanılabilir bir iş parçacığı yoksa, senkronizasyon isteğinin önceki isteğin tamamlanmasını ve atanan iş parçacığının havuza dönmesini beklemesi gerekir.
+Eşzamansız isteğin farkı, eşzamansız isteğin önceki işlemin tamamlanmasını beklemesine gerek olmamasıdır. Boru hattındaki her adım bir iş parçacığı tarafından işlenir.
+- Depolar katmanında, IBookRepository ve BookRepository'yi yeniden düzenleyin, Get yöntemlerini yeniden düzenleyin, yeniden ayarlanan türleri Görev'e sarın
+- IRepositoryManager ve RepositoryManager'da Save yöntemini yeniden düzenleyin.
+- Hizmetler katmanında Yöntemleri aynı şekilde Rafactor.
+- Sunum katmanındaki Yöntemleri yeniden düzenleyin.
 
-# 16. Sorting
-- Add OrderBy property into RequestParameters int the Entities project
-- Add a constructor into BookParameters class to set a default OrderBy = "Id"
-- Add a method named SortBy into BookRepositoryExtensions in the Repositories project
-- Wrie the method that handles the queries like ..books?orderby=title,price
-- Remember to resolve "BindingFlags" in the method using Refrection, not System
-- install System.Linq.Dynamic.Core version 1.2.23
-- If OrderBy doesn't resolve automatically after installing this package, manually add using System.Linq.Dynamic.Core
-- Use this method to refactor the BookRepository.
-- In the Repositories project, add OrderQueryBuilder class into Extensions folder.
-- Use this Builders method to refactor the BookRepositoryExtensions class.
+# 11. Eylem Filtreleri
+## 11.1. Eylem Filtresi
+- ActionFilters klasörünü Sunum katmanına ekleyin
+- ValidationFilterAttribute sınıfı oluşturun: ActionFilterAttribute
+- Temel sınıfın gerekli yöntemlerini geçersiz kılın
+- Denetleyicinin Oluşturma ve Güncelleme yöntemlerine ValidationFilter niteliğini ekleyin
+- BadRequest ve UnprocessibleEntity bloklarını kaldırın.
+- Program.cs'ye IoC kaydı ekleyin
+## 11.2. Günlük Filtresi
+- LogDetails modelini Entities/LogModel klasörüne ekleyin.
+- LogFilterAttribute eklenmesi, ActionFilterAttribute'u Sunum/ActionFilters'a genişletir
+- Ana projedeki ServicesExtensions'a Filtre Nitelikleri için bir yöntem ekleyin.
+- Hizmetlere eklemek için Program.cs'den bu yöntemi çağırın.
+- Tüm eylemleri günlüğe kaydetmek için BooksController'a özellik ekleyin.
+# 12. Sayfalandırma ve Cors
+## 12.1. Temel Sayfalandırma
+- Entities projesine requestFeatures klasörünü ekleyin,
+- Bu klasöre requestParameters soyut sınıfını ekleyin
+- BookParameters eklemek, requestParameters'ı genişletir
+- BookParameters'ı kullanmak için IBooksRepository refactor GetAll yöntemi imzalarında
+- IBookRepository uygulamasını yeniden düzenleyin
+- Yöntemleri Sunum katmanına kadar yeniden düzenleyin.
+## 12.2. Meta veriler ve sayfalanmış liste
+- Varlıklar projesindeki requestFeatures'a MetaData ve PagedList sınıflarını ekleyin
+- Tüm katmanların GetAll yöntemlerini yeniden düzenleyin.
+## 12.3. Cors (Çapraz Kökenli kaynak paylaşımı) Yapılandırması
+- ServicesExtensions'a ManageCors yöntemini ekleyin
+- Program.cs'ye ConfigurationCors çağrısını ekleyin
+# 14. Filtreleme
+- Entities projesinde BookParameters sınıfına özellikler ekleyin
+- İstisnalar klasöründe BadRequestException'ı soyut yapın ve bu sınıfın iki alt sınıfını oluşturun. WebApi/Extensions klasöründeki ExceptionMiddlewareExtensions sınıfını uygun şekilde yeniden düzenleyin.
+- Repositories projesinde BookRepositoriesExtensions sınıfını ekleyin
+- BookRepository'de Extension yöntemini kullanarak yöntemi yeniden düzenleyin.
 
-# 17. Data Shaping
-Data shaping is not an essential feature that all apis need. By this feature we can let the client to choose which fields of the resources they want.
-- To enable this feature for all resources, add Fields property to Request parameters, or otherwise to enable for specifice resources, add this property to that parameters of that resource. (eg: for only Book, ad this prop to BookParameters class)
-- Add an interface into Contracts of Services layer
-- Implement this interface in the Services layer.
-	- Get the requested property names in the query
-	- Get the public and instance properties of the resource type by reflection
-	- Compare them to determine which of the properties requested and create a collection of them.
-	- Fetch the values of the requested properties.
-	- Create and return an ExpandoOblect from these properties and their values
-	-If a collection is requested, do this for each object and create a collection of ExpandoObjects to return.
-	- ExpandoObject is a dynamic object type to create in the runtime.
-- Create an extension method for IoC in the ServicesExtensions class in the WebApi/Extensions
-- Call this method in the Program.cs
-In the IBookService, change the signature of IBookService to return ExpandoObject
-- Change the implementation too, inject shaper into the class and refactor the GetAll method.
-- Modify the ServiceManager since the contstructor now needs another parameter.
-# 18. Hateoas (Hypermedia as the Engine of Application State)
-To have Hypermedia support,
-- Entities project, add LinkModels folder, into folder add Link class
-- Create LinkResourceBase and LinkCollectionWrapper classes in the same folder
-- Create the Entity class in the Models folder
-- Create the ShapedEntity in the same folder.
-- In the services layed, refactor IDataShaper to use Shaped entity instead of ExpanoObject, and refactor the implementation.
-- Add LinkResponse class into LinkModels folder in the Entities
-- In the ServicesExtensions add the AddCustomMediaTypes method and call this in the Program.cs
-- Add ValidateMediaTypeAttribute class into the ActionFilters folder in te Presentation layer. Resolve MediaTypeHeaderValue in the if statement using Microsoft.
-- Add this ValidateMediaTypeAttribute into ConfigureActionFilters call in the ServicesExtensions.cs
-- Add this attribute onto GetAllBooksAsync method in the BooksController of the Presentation layer.
-- install Microsoft.AspNetCore.Mvc.Abstractions version 2.2.0 package into Entities project.
-- In the service layer, add IBookLinks interface into the contracts. Resolve HttpContext using Microsoft.AspNetCore.Http.
-- Then implement the BookLinks class, CreateForBook private method will be implemented later.
-- Create a LinkParameters record type into DataTransferObjects folder in  the Entities.
-- Add IoC record of BookLinks into Program.cs
-- In the service layer:
-	- Change BookManager private fields and constructor.
-	- Change GetAll method
-	- Change IBookManager interface
-	- Change ServiceManager constructor
-- In the Presentation layer:
-	- Change BooksController GetAll method
-- Correct the ValidateMediaTypeAttribute and Program.cs, Add Mock links into CreateForBook method of the BookLinks class.
-- Implement CreateForBook method in the BookLinks class
-- Crete a new private method named CreateForBooks and refactor the ReturnLinkedBooks with this method.
+# 15. Arama
+- BookParameters'a bir SearchTerm özelliği ekleyin.
+- GetAll yöntemine "Arama" yöntemini eklemek için BookRepository'yi yeniden düzenleyin.
+- Depolar projesinde Uzantılar adında bir klasör oluşturun
+- BookRepositoryExtensions sınıfını klasöre taşıyın
+- BookRepositoryExtensions sınıfına bir "Arama" yöntemi ekleyin.
 
-# 19. Http OPTIONS and HEAD Requests
-## 19.1. OPTIONS verb
-- In the Presentation layer
-	- Add a new method named GetBooksOptions with HttpOptions attribute.
-	- Options request informs the Client Which Http verbs are allowed.
-## 19.2. HEAD verb
-- Head verb is about the Headers of a request and response. No Body.
-- It has the same features with GET verb.
-- No need for a method for HEAD. Add HttpHead attribute on GetAllBooks Method onto HttpGet attribute.
-- Will return only headers
+# 16. Sıralama
+- Entities projesindeki requestParameters'a OrderBy özelliğini ekleyin
+- Varsayılan bir OrderBy = "Id" ayarlamak için BookParameters sınıfına bir kurucu ekleyin
+- Repositories projesindeki BookRepositoryExtensions'a SortBy adlı bir yöntem ekleyin
+- ..books?orderby=title,price gibi sorguları işleyen yöntemi yazın
+- Yöntemdeki "BindingFlags" sorununu Sistem değil, Yansıma kullanarak çözmeyi unutmayın
+- System.Linq.Dynamic.Core 1.2.23 sürümünü yükleyin
+- Bu paketi yükledikten sonra OrderBy otomatik olarak çözülmezse System.Linq.Dynamic.Core kullanarak manuel olarak ekleyin.
+- BookRepository'yi yeniden düzenlemek için bu yöntemi kullanın.
+- Repositories projesinde, OrderQueryBuilder sınıfını Extensions klasörüne ekleyin.
+- BookRepositoryExtensions sınıfını yeniden düzenlemek için bu Builders yöntemini kullanın.
 
-# 20. Root Documentation
-- Add a RootController into Presentation layer
-- Create the GetRoot method.
-- Add mediaType support lines into ServicesExtensions class in the WebApi/Extensions folder.
+# 17. Veri Şekillendirme
+Veri şekillendirme, tüm API'lerin ihtiyaç duyduğu önemli bir özellik değildir. Bu özellik sayesinde müşterinin hangi kaynak alanlarını istediğini seçmesine izin verebiliriz.
+- Bu özelliği tüm kaynaklar için etkinleştirmek için, İstek parametrelerine Alanlar özelliğini ekleyin veya belirli kaynaklar için etkinleştirmek istiyorsanız, bu özelliği o kaynağın parametrelerine ekleyin. (örneğin: yalnızca Book için bu desteği BookParameters sınıfına ekleyin)
+- Hizmet Sözleşmeleri katmanına bir arayüz ekleyin
+- Bu arayüzü Hizmetler katmanına uygulayın.
+- Sorguda istenen özellik adlarını alın
+- Kaynak türünün genel ve örnek özelliklerini yansıma yoluyla alın
+- Hangi özelliklerin talep edildiğini belirlemek ve bunlardan bir koleksiyon oluşturmak için bunları karşılaştırın.
+- İstenen özelliklerin değerlerini getirin.
+- Bu özelliklerden ve değerlerinden bir ExpandoOblect oluşturun ve döndürün
+-Bir koleksiyon istenirse, bunu her nesne için yapın ve döndürülecek bir ExpandoObjects koleksiyonu oluşturun.
+- ExpandoObject, çalışma zamanında oluşturulacak dinamik bir nesne türüdür.
+- WebApi/Extensions'taki ServicesExtensions sınıfında IoC için bir uzantı yöntemi oluşturun
+- Program.cs'de bu yöntemi çağırın
+IBookService'de, ExpandoObject'i döndürmek için IBookService'in imzasını değiştirin
+- Uygulamayı da değiştirin, sınıfa şekillendiriciyi enjekte edin ve GetAll yöntemini yeniden düzenleyin.
+- Yapıcının artık başka bir parametreye ihtiyacı olması nedeniyle ServiceManager'ı değiştirin.
+# 18. Hateoas (Uygulama Durumunun Motoru Olarak Hipermedya)
+Hypermedia desteğine sahip olmak için,
+- Varlıklar projesi, LinkModels klasörünü ekleyin, klasöre Link sınıfını ekleyin
+- Aynı klasörde LinkResourceBase ve LinkCollectionWrapper sınıfları oluşturun
+- Modeller klasöründe Entity sınıfını oluşturun
+- Aynı klasörde ShapedEntity'yi oluşturun.
+- Sunulan hizmetlerde, ExpanoObject yerine Shaped varlığını kullanmak için IDataShaper'ı yeniden düzenleyin ve uygulamayı yeniden düzenleyin.
+- LinkResponse sınıfını Varlıklar'daki LinkModels klasörüne ekleyin
+- ServicesExtensions'ta AddCustomMediaTypes yöntemini ekleyin ve bunu Program.cs'de çağırın
+- ValidateMediaTypeAttribute sınıfını Sunum katmanındaki ActionFilters klasörüne ekleyin. Microsoft'u kullanarak if ifadesindeki MediaTypeHeaderValue sorununu çözümleyin.
+- Bu ValidateMediaTypeAttribute'u ServicesExtensions.cs'deki YapılandırActionFilters çağrısına ekleyin
+- Bu özniteliği Sunum katmanının BooksController'ındaki GetAllBooksAsync yöntemine ekleyin.
+- Entities projesine Microsoft.AspNetCore.Mvc.Abstractions sürüm 2.2.0 paketini yükleyin.
+- Hizmet katmanında sözleşmelere IBookLinks arayüzünü ekleyin. Microsoft.AspNetCore.Http'yi kullanarak HttpContext'i çözümleyin.
+- Daha sonra BookLinks sınıfını uygulayın, CreateForBook özel yöntemi daha sonra uygulanacaktır.
+- Varlıklar'daki DataTransferObjects klasöründe bir LinkParameters kayıt türü oluşturun.
+- BookLinks'in IoC kaydını Program.cs'ye ekleyin
+- Hizmet katmanında:
+- BookManager özel alanlarını ve yapıcısını değiştirin.
+- GetAll yöntemini değiştir
+- IBookManager arayüzünü değiştirin
+- ServiceManager yapıcısını değiştirin
+- Sunum katmanında:
+- BooksController GetAll yöntemini değiştirin
+- ValidateMediaTypeAttribute ve Program.cs'yi düzeltin, BookLinks sınıfının CreateForBook yöntemine Mock bağlantıları ekleyin.
+- BookLinks sınıfında CreateForBook yöntemini uygulayın
+- CreateForBooks adında yeni bir özel yöntem oluşturun ve bu yöntemle ReturnLinkedBooks'u yeniden düzenleyin.
 
-# 21. Versioning
-- Install Microsoft.AspNetCore.Mvc.Versioning (5.0.0) into presentation layer.
-- In the ServiesExtensions add a Versioning config method. Add this to Program.cs
-## 21.1. Books V2 - With params
-- Add BooksV2Controller into controllers
-- Add Version 1.0 attribute to BooksController and 2.0 to BooksV2Controller
-- Create a GetAllBooksAsync method
-- Add method to the IBookService and implement it in the BookService
-- Cascade the method to Repositories layer.
-## 21.2. Books V2 - With URL
-- Add {v:apiversion}/ to Route attribute.
-## 21.3. Books V2 - With Header
-- Remove {v:apiversion}/ from Route attributes make it as before.
-- In the ServicesExtensions add the ApiVersionReader line into AddApiVersioning method.
-## 21.4. Deprecating Versions
-- Add Deprecated = true to ApiVersion Attribute.
-## 21.5. Convensions 
-- In the ServicesExtensions, add Convensions lines
-- Remove ApiVersion Attributes...
+# 19. Http SEÇENEKLERİ ve HEAD İstekleri
+## 19.1. SEÇENEKLER fiil
+- Sunum katmanında
+- HttpOptions özniteliğine sahip GetBooksOptions adlı yeni bir yöntem ekleyin.
+- Seçenek isteği, Müşteriye hangi Http fiillerine izin verildiğini bildirir.
+## 19.2. BAŞ fiil
+- Baş fiil, bir istek ve yanıtın Başlıkları ile ilgilidir. Hiç kimse.
+- GET fiili ile aynı özelliklere sahiptir.
+- HEAD için bir yönteme gerek yok. GetAllBooks Yöntemi üzerindeki HttpHead niteliğini HttpGet niteliğinin üzerine ekleyin.
+- Yalnızca başlıkları döndürür
 
-# 22. Caching
-- Add ResponseCache attribute on GetAll method of the BooksController. By doing this, a new header will be added to the response, meaning the response is cachable.
-- In the ServicesExtensions add a ConfigureResponseCaching method, and call this in the Program.cs
-- Add app.UseResponseCaching() under the Cors config line in the Program.cs
-- Test in the postman, (make sure in the settings of the postman, send no caching header option is off), in the firs response, we see a header "Cache-Control" showing duration of cache. If we send another request, we'll se an additional header "Age".
-- We can create Cache Profiles for various resources.
-	- In the Program.cs, in the AddControllers method, add cache profiles config.
-	- Add ResponseCache attribute with CacheProfile parameter.
-	- We'll see 300 seconds duration cache in the responses except the getall method, since it has its own ResponseCache attribute on it.
-## 22.1. Caching with Marvin
-- Install Marvin.Cache.Headers (6.0.0) package into Presentation layer.
-- Add a ConfigureHttpCacheHeaders method into ServicesExtensions
-- Call this from Program.cs and add UseHttpCacheHeaders() line (make sure it is) under the Cors line.
-- Test the application, There will be 3 more headers in the response; ETag, Expires, Last-Modified.
-- The ResponseCache attributes now can be removed.
-- The default config is public cache, duration 60 seconds. We can change these in the config of Services.Extensions file or/and We can use HttpCacheExpiration attribute with parameters.
+# 20. Kök Belgeler
+- Sunum katmanına bir RootController ekleyin
+- GetRoot yöntemini oluşturun.
+- MediaType destek satırlarını WebApi/Extensions klasöründeki ServicesExtensions sınıfına ekleyin.
 
-# 23. Rate Limiting
-We can limit rate of requests. We'll respond with status code 429 Too many requests.
-- Install AspNetCoreRateLimit -Version 4.0.1 package to WebApi project.
-- In the Program.cs add AddMemoryCache to Services.
-- Add a configuration method into ServicesExtensions
-- Add a call to this method into Program.cs
-- Add a UseIpRateLimiting call into Program.cs before Cors.
-- In the testing, there will be new parameters in the response headers;
-X-Rate-Limit-Limit, X-Rate-Limit-Remaining, X-Rate-Limit-Reset.
-- The api will return Too Many Requests status code 429 when the number of requests exceeds the rate in the defined period.
+# 21. Versiyonlama
+- Microsoft.AspNetCore.Mvc.Versioning'i (5.0.0) sunum katmanına yükleyin.
+- ServiesExtensions'ta bir Sürüm Oluşturma yapılandırma yöntemi ekleyin. Bunu Program.cs'ye ekle
+## 21.1. Kitaplar V2 - Parametrelerle
+- BooksV2Controller'ı denetleyicilere ekleyin
+- BooksController'a Sürüm 1.0 ve BooksV2Controller'a 2.0 özelliği eklendi
+- GetAllBooksAsync yöntemi oluşturun
+- IBookService'e yöntem ekleyin ve bunu BookService'de uygulayın
+- Yöntemi Depolar katmanına aktarın.
+## 21.2. Kitaplar V2 - URL'li
+- Rota özelliğine {v:apiversiyon}/ ekleyin.
+## 21.3. Kitaplar V2 - Başlıklı
+- Rota niteliklerinden {v:apiversiyon}/ öğesini kaldırın, eskisi gibi yapın.
+- ServicesExtensions'ta ApiVersionReader satırını AddApiVersioning yöntemine ekleyin.
+## 21.4. Sürümlerin Kullanımdan Kaldırılması
+- ApiVersion Özniteliğine Kullanımdan Kaldırılmış = true değerini ekleyin.
+## 21.5. Sözleşmeler
+- ServicesExtensions'ta Convensions satırlarını ekleyin
+- ApiVersion Niteliklerini Kaldır...
+# 22. Önbelleğe Alma
+- BooksController'ın GetAll yöntemine ResponseCache niteliğini ekleyin. Bunu yaptığınızda yanıta yeni bir başlık eklenecektir, bu da yanıtın önbelleğe alınabileceği anlamına gelir.
+- ServicesExtensions'a bir ConfigurationResponseCaching yöntemi ekleyin ve bunu Program.cs'de çağırın
+- Program.cs'deki Cors yapılandırma satırının altına app.UseResponseCaching() öğesini ekleyin
+- Postacıda test edin (postacı ayarlarında önbellek başlığı gönderme seçeneğinin kapalı olduğundan emin olun), ilk yanıtta önbellek süresini gösteren bir "Önbellek Kontrolü" başlığı görüyoruz. Başka bir istek gönderirsek ek bir "Yaş" başlığı görürüz.
+- Çeşitli kaynaklar için Önbellek Profilleri oluşturabiliriz.
+- Program.cs'de AddControllers yönteminde önbellek profilleri yapılandırmasını ekleyin.
+- CacheProfile parametresiyle ResponseCache niteliğini ekleyin.
+- Üzerinde kendi ResponseCache özelliği bulunduğundan, getall yöntemi dışındaki yanıtlarda 300 saniye süreli önbellek göreceğiz.
+## 22.1. Marvin ile önbelleğe alma
+- Marvin.Cache.Headers (6.0.0) paketini Sunum katmanına yükleyin.
+- ServicesExtensions'a bir ConfigurationHttpCacheHeaders yöntemi ekleyin
+- Bunu Program.cs'den çağırın ve Cors satırının altına UseHttpCacheHeaders() satırını ekleyin (öyle olduğundan emin olun).
+- Uygulamayı test edin, Yanıtta 3 başlık daha olacak; ETag, Süresi Doluyor, Son Değiştirilme Tarihi.
+- ResponseCache nitelikleri artık kaldırılabilir.
+- Varsayılan yapılandırma genel önbellektir, süresi 60 saniyedir. Bunları Services.Extensions dosyasının config'inden değiştirebiliriz ve/veya HttpCacheExpiration niteliğini parametrelerle kullanabiliriz.
 
-# 24. Authentication and Authorization
-Authentication ~ Login, Authorization ~ Permits  
-Identity framework with JSON Web Token (JWT) will be used in this subject.
-## 24.1. Identity
-- Install Microsoft.AspNetCore.Identity.EntityFrameworkCore (6.0.0) package into Identity project.
-- In the Entities project add User : IdentityUser class into Models folder.
-- In the Repositories project, change RepositoryContext : DbContext to inherit from IdentityDbContext<User> and refactor OnModelCreating method.
-- In the WebApi project, add a new config method for Identity
-- In the Program.cs
-	- AddAuthentication
-	- ConfigureIdentity
-	- UseAuthentication before UseAuthorization
-- In the PM add a migration. Make sure default (target) project is WebApi
-- Use Update-Database command to create tables.
-## 24.2. Defining Roles
-In the Repositories project
-- Add RoleConfiguration class into EfCore.Config folder, add roles into it.
-- In the RepositoryContext, add RoleConfiguration or use Assembly to get all type configs.
-- Add migration and update database
-## 24.3. User
-- Add UserForRegistrationDto into Entities project DataTransferObjects folder
-- Add mapping for this class into MappingProfile in the Utilities folder of WebApi
-- In the Services layer, 
-	- add an interface IAuthenticationService into contracts. Add AuthenticationManager class.
-	- Add IAuthenticationService to IServiceManager
-	- Add AuthenticationManager to ServiceManager
-- In the Presentation layer,
-	- Add a new controller AuthenticationController and the RegisterUser method.
-## 24.5. JSON Web Token (JWT)
-- In the WebApi project, add JwtSettings into appsettings.json
-- Install Microsoft.AspNetCore.Authentication.JwtBearer (6.0.0) packet to WebApi project.
-- Add a config method into ServicesExtensions and call in the Program.cs
 
-## 24.6. Securing Endpoints
-- Add Authorize attribute onto GetAll method to secure the method.
+# 23. Hız Sınırlaması
+İsteklerin oranını sınırlayabiliriz. 429 durum koduyla yanıt vereceğiz Çok fazla istek.
+- AspNetCoreRateLimit -Version 4.0.1 paketini WebApi projesine yükleyin.
+- Program.cs'de Hizmetlere AddMemoryCache'i ekleyin.
+- ServicesExtensions'a bir yapılandırma yöntemi ekleyin
+- Program.cs'ye bu yönteme bir çağrı ekleyin
+- Cors'tan önce Program.cs'ye bir UseIpRateLimiting çağrısı ekleyin.
+- Test sırasında yanıt başlıklarında yeni parametreler olacak;
+X-Rate-Limit-Limit, X-Rate-Limit-Kalan, X-Rate-Limit-Sıfırlama.
+- İstek sayısı tanımlanan dönemdeki oranı aştığında API, Çok Fazla İstek durum kodu 429'u döndürecektir.
 
-## 24.7. Authentication & JWT
-- In the entities project Add UserForAuthenticationDto record type into the Dtos folder.
-- To validate user, go to the Services Layer,
-	- Add ValidateUser method signature into IAuthenticationService
-	- Implement the method in the AuthenticationManager
-	- Add CreateToken signature into IAuthenticationService
-	- Install System.IdentityModel.Tokens.Jwt (6.14.1) package
-	- Implement CreateToken method in the AuthenticationManager
-- In the Presentation layer,
-	- Add an Authenticate (login) method with HttpPost attribute
-	- Add roles authentications to BooksController methods.
-## 24.8. Refresh Token
-- In the Entities project, add properties RefreshToken and RefreshTokenExpiryTime to User.
-- Add a migration and update database
-- Add a Dto named TokenDto
-- In the Services layer, refactor CreateToken method of the IAuthenticationService interface and its implementation to return TokenDto instead of string.
-- In the presentation layer refactor the Authenticate method of the AuthenticationController to return TokenDto.
-- In the Services layer, add a Method named RefreshToken to IAuthenticationService and implement it in the AuthenticationManager.
-	- While implementing the method, create a  RefreshTokenBadRequestException in the Entities/Exceptions.
-- In the presentation layer, Create a new post method named Refresh into AuthenticationController.
-# 25. Documentation
-## 25.1. Configuring Swagger
-- In the WebApi project add ConfigureSwagger method into ServicesExtensions.
-- Change the records in the Program.cs (app.UseSwaggerUI, ConfigureSwagger)
-- Go to Controllers in the presentation layer. To define of which version a controller is, add the ApiExplorerSettings Attribute.
+# 24. Kimlik Doğrulama ve Yetkilendirme
+Kimlik Doğrulama ~ Giriş, Yetkilendirme ~ İzinler
+Bu konuda JSON Web Token (JWT) ile kimlik çerçevesi kullanılacaktır.
+## 24.1. Kimlik
+- Identity projesine Microsoft.AspNetCore.Identity.EntityFrameworkCore (6.0.0) paketini yükleyin.
+- Entities projesinde Models klasörüne User : IdentityUser sınıfını ekleyin.
+- Repositories projesinde RepositoryContext : DbContext öğesini IdentityDbContext<User> öğesinden devralacak şekilde değiştirin ve OnModelCreating yöntemini yeniden düzenleyin.
+- WebApi projesinde Identity için yeni bir yapılandırma yöntemi ekleyin
+- Program.cs'de
+- Kimlik Doğrulama Ekle
+- Kimlik Yapılandır
+- UseAuthorization'dan önce UseAuthentication
+- PM'de bir geçiş ekleyin. Varsayılan (hedef) projenin WebApi olduğundan emin olun
+- Tablolar oluşturmak için Güncelle-Veritabanı komutunu kullanın.
+## 24.2. Rolleri Tanımlama
+Depolar projesinde
+- RoleConfiguration sınıfını EfCore.Config klasörüne ekleyin, rollere ekleyin.
+- RepositoryContext'te, RoleConfiguration'ı ekleyin veya tüm tür yapılandırmalarını almak için Assembly'yi kullanın.
+- Geçiş ekleme ve veritabanını güncelleme
+## 24.3. Kullanıcı
+- Entities projesi DataTransferObjects klasörüne UserForRegistrationDto'yu ekleyin
+- Bu sınıf için eşlemeyi WebApi'nin Utilities klasöründeki MappingProfile'a ekleyin
+- Hizmetler katmanında,
+- sözleşmelere bir IAuthenticationService arayüzü ekleyin. AuthenticationManager sınıfını ekleyin.
+- IServiceManager'a IAuthenticationService ekleyin
+- AuthenticationManager'ı ServiceManager'a ekleyin
+- Sunum katmanında,
+- Yeni bir denetleyici AuthenticationController ve RegisterUser yöntemini ekleyin.
+## 24.5. JSON Web Belirteci (JWT)
+- WebApi projesinde JwtSettings'i appsettings.json'a ekleyin
+- Microsoft.AspNetCore.Authentication.JwtBearer (6.0.0) paketini WebApi projesine yükleyin.
+- ServicesExtensions'a bir yapılandırma yöntemi ekleyin ve Program.cs'yi çağırın
 
-# 26. Expanding Resources and Features
-## 26.1. Adding Categories and Authors, Expanding Book
-- Entities Project:
-	- Add Author and Category models.
-	- Create AuthorParameters in RequestFeatures
-	- Create Dtos for Category and Author
-	- Add BookLinkParameters into Dtos
-	- Add custom exceptions.
-- Repositories Layer:
-	- In the RepositoryContext add DbSets for Categories and Authors
-	- In the Contracts add interfaces for Author and Category
-	- Add CategoryRepository and AuthorRepository into EfCore
-	- In the extensions folder add an AuthorRepositoryExtensions class
-	- Add Author and Category to IRepositoryManager and RepositoryManager
-	- Add Configs for Author and Category.
-- WebApi layer:
-	- Add migration, drop database, and update database.
-	- Add Mappings
-	- Add Scoped IoC record for AuthorLinks.
-- Services layer:
-	- Add ICategoryService, IAuthorService, IAuthorlinks into Contracts and add their implemetations Manager classes.
-- Presentation layer,
-	- Create Controllers, add Authentications and versioning...
-- Test the Api
-## 26.2 Relations, One-To-Many Relation
-- A Book has one Category, a category have many books.
-- A Book has one Author, an author can publish  many books.
-- Add CategoryId, Category, AuthorId and Author to Book.
-- Add Books to Category and Author.
-- Add BookDetailsDto and configure mapper to map from Book to this.
-- Configure Repository to include Category and Author navigational properties to Book.
--Refactor BooksController get all book details and create book with AuthorId and CategoryId.
-# 27 File Operations
-## Upload
-- Create new controller named FilesController, add an Upload POST method.
-- Create a Media folder in the WebApi project.
-## Download
-- Create a Get method in the FilesController.
+## 24.6. Uç Noktaların Güvenliğini Sağlama
+- Yöntemin güvenliğini sağlamak için GetAll yöntemine Authorize niteliğini ekleyin.
+
+## 24.7. Kimlik Doğrulama ve JWT
+- Varlıklar projesinde, Dtos klasörüne UserForAuthenticationDto kayıt türünü ekleyin.
+- Kullanıcıyı doğrulamak için Hizmetler Katmanına gidin,
+- IAuthenticationService'e ValidateUser yöntemi imzasını ekleyin
+- AuthenticationManager'da yöntemi uygulayın
+- IAuthenticationService'e CreateToken imzasını ekleyin
+- System.IdentityModel.Tokens.Jwt (6.14.1) paketini yükleyin
+- AuthenticationManager'da CreateToken yöntemini uygulayın
+- Sunum katmanında,
+- HttpPost özniteliğine sahip bir Kimlik Doğrulama (giriş) yöntemi ekleyin
+- BooksController yöntemlerine rol kimlik doğrulamaları ekleyin.
+## 24.8. Jetonu Yenile
+- Varlıklar projesinde, RefreshToken ve RefreshTokenExpiryTime özelliklerini User'a ekleyin.
+- Bir geçiş ekleyin ve veritabanını güncelleyin
+- TokenDto adında bir Dto ekleyin
+- Hizmetler katmanında, IAuthenticationService arayüzünün CreateToken yöntemini yeniden düzenleyin ve dize yerine TokenDto'yu döndürecek şekilde uygulanmasını sağlayın.
+- Sunum katmanında, TokenDto'ya dönmek için AuthenticationController'ın Authenticate yöntemini yeniden düzenleyin.
+- Hizmetler katmanında, IAuthenticationService'e RefreshToken adlı bir Yöntem ekleyin ve bunu AuthenticationManager'da uygulayın.
+- Yöntemi uygularken Varlıklar/İstisnalar'da bir RefreshTokenBadRequestException oluşturun.
+- Sunum katmanında, AuthenticationController'da Refresh adlı yeni bir gönderi yöntemi oluşturun.
+# 25. Belgeler
+## 25.1. Swagger'ı Yapılandırma
+- WebApi projesinde, ServicesExtensions'a ConfigurationSwagger yöntemini ekleyin.
+- Program.cs'deki kayıtları değiştirin (app.UseSwaggerUI, ConfigurationSwagger)
+- Sunum katmanında Denetleyiciler'e gidin. Bir denetleyicinin hangi sürüme ait olduğunu tanımlamak için ApiExplorerSettings Özniteliğini ekleyin.
+
+# 26. Kaynakları ve Özellikleri Genişletme
+## 26.1. Kategori ve Yazar Ekleme, Kitabı Genişletme
+- Varlıklar Projesi:
+- Yazar ve Kategori modellerini ekleyin.
+-RequestFeatures'ta AuthorParameters oluşturun
+- Kategori ve Yazar için Dto'lar oluşturun
+- BookLinkParameters'ı Dtos'a ekleyin
+- Özel istisnalar ekleyin.
+-Depo Katmanı:
+- RepositoryContext'te Kategoriler ve Yazarlar için DbSet'leri ekleyin
+- Sözleşmelere Yazar ve Kategori için arayüzler ekleyin
+- EfCore'a CategoryRepository ve AuthorRepository'yi ekleyin
+- Uzantılar klasörüne bir AuthorRepositoryExtensions sınıfı ekleyin
+- IRepositoryManager ve RepositoryManager'a Yazar ve Kategori ekleyin
+- Yazar ve Kategori için Yapılandırmalar ekleyin.
+- WebApi katmanı:
+- Geçiş ekleyin, veritabanını bırakın ve veritabanını güncelleyin.
+- Eşlemeler Ekle
+- AuthorLinks için Kapsamlı IoC kaydı ekleyin.
+- Hizmetler katmanı:
+- Sözleşmelere ICategoryService, IAuthorService, IAuthorlinks'i ekleyin ve bunların uygulamalarının Yönetici sınıflarını ekleyin.
+- Sunum katmanı,
+- Denetleyiciler oluşturun, Kimlik Doğrulamaları ve sürüm oluşturmayı ekleyin...
+- API'yi test edin
+## 26.2 İlişkiler, Bire Çok İlişki
+- Bir Kitabın bir Kategorisi vardır, bir kategorinin birçok kitabı vardır.
+- Bir Kitabın bir Yazarı vardır, bir yazar birçok kitap yayınlayabilir.
+- Kitaba Kategori Kimliği, Kategori, Yazar Kimliği ve Yazar ekleyin.
+- Kategori ve Yazara Kitap ekleyin.
+- BookDetailsDto'yu ekleyin ve eşleyiciyi Book'tan buna eşleyecek şekilde yapılandırın.
+- Kitap'a Kategori ve Yazar gezinme özelliklerini dahil etmek için Depoyu yapılandırın.
+-Refactor BooksController tüm kitap ayrıntılarını alır ve AuthorId ve CategoryId ile kitap oluşturur.
+# 27 Dosya İşlemleri
+## Yüklemek
+- FilesController adında yeni bir denetleyici oluşturun, bir Upload POST yöntemi ekleyin.
+- WebApi projesinde bir Medya klasörü oluşturun.
+## İndirmek
+- FilesController'da bir Get yöntemi oluşturun.
